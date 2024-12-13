@@ -1,0 +1,98 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('../assets/loginbackground.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+h1{
+    animation: changeColors 3s infinite;
+    margin-left: 41%;
+    font-weight: bolder;
+    font-size: 40px;
+    margin-top: 15%;
+    
+}
+@keyframes  changeColors{
+    0%{color:aqua}
+    25%{color:rgb(12, 131, 241);}
+    50%{color:rgb(150, 12, 92);}
+    75%{color:rgb(122, 3, 43);}
+    100%{color:rgb(114, 0, 167);}
+    
+}
+.input1 {
+    background-color: rgba(255, 0, 149, 0.555);
+    width: 50%;
+    margin-left: 25%;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    border:none;
+    font-size: 15px;
+    color: rgb(255, 255, 255);
+}
+.input1::placeholder{
+    color: aqua;
+    font-size: 16px;
+    text-align: center;
+}
+.input2::placeholder{
+    color: aqua;
+    font-size: 16px;
+    text-align: center;
+}
+.input2 {
+    background-color: rgba(255, 0, 149, 0.555);
+    width: 50%;
+    margin-left: 25%;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    border: none;
+    font-size: 15px;
+    color-scheme: white;
+}
+
+.login-btn {
+    width: 100px;
+    padding: 10px;
+
+    color: aqua;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: 41%;
+    margin-bottom: 20%;
+    background: linear-gradient(45deg, rgb(0, 255, 255),
+     rgb(2, 230, 230), rgb(5, 54, 158),
+      rgb(247, 0, 214), rgb(233, 28, 28), rgb(152, 33, 236), violet);
+    background-size: 300% 300%;
+    border: none;
+    padding: 15px 30px;
+    cursor: pointer;
+    animation: gradientMove 5s infinite;
+    transition: transform 0.2s ease;
+    
+}
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.login-btn:hover {
+    background-color: #45a049;
+}
+

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="loginstyle.css">
+</head>
+<body>
+
+    <div class="con">
+        <h1 class="login">Login</h1>
+        <form id="loginForm" onsubmit="return checkCredentials(event)">
+            <input type="text" class="input1" placeholder="Username" required>
+            <input type="password" class="input2" placeholder="Password" required>
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+    </div>
+
+</body>
+<script src="login.js"></script>
+</html>
