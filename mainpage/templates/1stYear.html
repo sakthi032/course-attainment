@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Year</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center">First Year</h1>
+        <form id="headerForm" class="mb-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="courseName" class="form-label">Course Name</label>
+                    <input type="text" id="courseName" class="form-control" placeholder="Enter Course Name">
+                </div>
+                <div class="col-md-6">
+                    <label for="courseCode" class="form-label">Course Code</label>
+                    <input type="text" id="courseCode" class="form-control" placeholder="Enter Course Code">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label for="academicYear" class="form-label">Academic Year</label>
+                    <input type="text" id="academicYear" class="form-control" placeholder="Enter Academic Year">
+                </div>
+                <div class="col-md-6">
+                    <label for="semester" class="form-label">Semester</label>
+                    <input type="text" id="semester" class="form-control" placeholder="Enter Semester">
+                </div>
+            </div>
+        </form>
+
+        <!-- Table for Students -->
+        <div>
+            <label for="numStudents" class="form-label">Number of Students</label>
+            <input type="number" id="numStudents" class="form-control mb-3" placeholder="Enter number of students" min="1">
+            <button class="btn btn-primary" onclick="generateTable()">Create Table</button>
+        </div>
+        
+        <table class="table table-bordered mt-4" id="studentsTable">
+            <thead>
+                <tr>
+                    <th>Reg. No</th>
+                    <th>Name of the Student</th>
+                    <th>ESE</th>
+                    <th>CIA</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <button class="btn btn-success mt-3" onclick="saveToDatabase()">Save to Database</button>
+    </div>
+
+    <script>
+        function generateTable() {
+            const numStudents = parseInt(document.getElementById('numStudents').value);
+            const tbody = document.getElementById('studentsTable').querySelector('tbody');
+            tbody.innerHTML = ''; // Clear existing rows
+
+            for (let i = 1; i <= numStudents; i++) {
+                const row = `
+                    <tr>
+                        <td><input type="text" id="reg-${i}" class="form-control" placeholder="Enter Reg. No"></td>
+                        <td><input type="text" id="name-${i}" class="form-control" placeholder="Enter Name"></td>
+                        <td><input type="number" id="ese-${i}" class="form-control" oninput="calculateTotal(${i})"></td>
+                        <td><input type="number" id="cia-${i}" class="form-control" oninput="calculateTotal(${i})"></td>
+                        <td><input type="text" id="total-${i}" class="form-control" readonly></td>
+                    </tr>`;
+                tbody.innerHTML += row;
+            }
+        }
+
+        function calculateTotal(row) {
+            const ese = parseFloat(document.getElementById(`ese-${row}`).value) || 0;
+            const cia = parseFloat(document.getElementById(`cia-${row}`).value) || 0;
+            document.getElementById(`total-${row}`).value = ese + cia;
+        }
+
+        async function saveToDatabase() {
+            const header = {
+                courseName: document.getElementById('courseName').value,
+                courseCode: document.getElementById('courseCode').value,
+                academicYear: document.getElementById('academicYear').value,
+                semester: document.getElementById('semester').value,
+            };
+
+            const students = [];
+            const rows = document.getElementById('studentsTable').querySelectorAll('tbody tr');
+            rows.forEach((row, index) => {
+                students.push({
+                    regNo: document.getElementById(`reg-${index + 1}`).value,
+                    name: document.getElementById(`name-${index + 1}`).value,
+                    ese: parseFloat(document.getElementById(`ese-${index + 1}`).value) || 0,
+                    cia: parseFloat(document.getElementById(`cia-${index + 1}`).value) || 0,
+                    total: parseFloat(document.getElementById(`total-${index + 1}`).value) || 0,
+                });
+            });
+
+            const response = await fetch('/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ header, students }),
+            });
+
+            const result = await response.json();
+            if (result.status === 'success') {
+                alert('Data saved successfully!');
+            } else {
+                alert('Failed to save data!');
+            }
+        }
+    </script>
+</body>
+</html>
